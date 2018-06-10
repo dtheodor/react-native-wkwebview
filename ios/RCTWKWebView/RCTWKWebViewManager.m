@@ -37,7 +37,8 @@ RCT_EXPORT_MODULE()
 
 - (UIView *)view
 {
-  RCTWKWebView *webView = [[RCTWKWebView alloc] initWithProcessPool:[WKProcessPool sharedProcessPool]];
+  // RCTWKWebView *webView = [[RCTWKWebView alloc] initWithProcessPool:[WKProcessPool sharedProcessPool]];
+  RCTWKWebView *webView = [[RCTWKWebView alloc] initWithConfig:[WKWebViewConfiguration sharedConfiguration]];
   webView.delegate = self;
   return webView;
 }

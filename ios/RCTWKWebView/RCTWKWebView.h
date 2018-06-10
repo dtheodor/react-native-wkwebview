@@ -23,6 +23,7 @@ shouldStartLoadForRequest:(NSMutableDictionary<NSString *, id> *)request
 @interface RCTWKWebView : RCTView
 
 - (instancetype)initWithProcessPool:(WKProcessPool *)processPool;
+- (instancetype)initWithConfig:(WKWebViewConfiguration *)webViewConfig;
 
 @property (nonatomic, weak) id<RCTWKWebViewDelegate> delegate;
 
