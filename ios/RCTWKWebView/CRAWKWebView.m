@@ -30,6 +30,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onLoadingFinish;
 @property (nonatomic, copy) RCTDirectEventBlock onLoadingError;
 @property (nonatomic, copy) RCTDirectEventBlock onShouldStartLoadWithRequest;
+@property (nonatomic, copy) RCTDirectEventBlock onUrlChage;
 @property (nonatomic, copy) RCTDirectEventBlock onProgress;
 @property (nonatomic, copy) RCTDirectEventBlock onMessage;
 @property (nonatomic, copy) RCTDirectEventBlock onScroll;
@@ -85,6 +86,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     }
 #endif
     [self setupPostMessageScript];
+    [_webView addObserver:self forKeyPath:@"url" options:NSKeyValueObservingOptionNew context:nil];
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [self addSubview:_webView];
   }
@@ -407,6 +409,12 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
                         change:(NSDictionary *)change
                        context:(void *)context
 {
+  if ([keyPath isEqualToString:@"url"]) {
+    if (!_onUrlChange) {
+      return;
+    }
+    _onUrlChange(@{@"url": [change objectForKey:NSKeyValueChangeNewKey]});
+  }
   if ([keyPath isEqualToString:@"estimatedProgress"]) {
     if (!_onProgress) {
       return;
